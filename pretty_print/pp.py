@@ -1,5 +1,6 @@
 """Pretty Print."""
 import sys
+from threading import Lock
 
 RESET = "\x1b[0m"
 BLACK = "\x1b[30m"
@@ -10,6 +11,8 @@ BLUE = "\x1b[34m"
 MAGENTA = "\x1b[35m"
 CYAN = "\x1b[36m"
 WHITE = "\x1b[37m"
+
+lock = Lock()
 
 
 def print_ok(string: str):
@@ -33,4 +36,6 @@ def print_flag(string: str):
 
 
 def print_(color: str, tag: str, string: str):
+    lock.acquire()
     sys.stdout.write("[" + color + tag.center(4) + RESET + "] " + string + "\n")
+    lock.release()
